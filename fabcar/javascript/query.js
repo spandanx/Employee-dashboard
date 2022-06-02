@@ -60,7 +60,7 @@ async function rightCreds() {
         const network = await gateway.getNetwork('mychannel');
 
         // Get the contract from the network.
-        const contract = network.getContract('usercc7');
+        const contract = network.getContract('usercc');
 
         // Evaluate the specified transaction.
         // queryCar transaction - requires 1 argument, ex: ('queryCar', 'CAR4')
@@ -103,7 +103,7 @@ async function wrongCreds() {
         // Get the network (channel) our contract is deployed to.
         const network = await gateway.getNetwork('mychannel');
         // Get the contract from the network.
-        const contract = network.getContract('usercc7');
+        const contract = network.getContract('usercc');
 	
 	//console.log("------------");
 	//let password = "admin_abc"
@@ -154,9 +154,11 @@ async function getEmployees() {
         // Get the network (channel) our contract is deployed to.
         const network = await gateway.getNetwork('mychannel');
         // Get the contract from the network.
-        const contract = network.getContract('employeecc2');
+        const contract = network.getContract('employee9');
 	
-        const result = await contract.evaluateTransaction('getAllEmployee');
+        //const result = await contract.evaluateTransaction('getAllEmployees');
+        const result = await contract.evaluateTransaction('getEmployeeByMonthDay', '06', '02', 0, 1);//month, day, pageNumber, pageSize
+        //onst result = await contract.evaluateTransaction('executeQuery', '{"selector":{"month":{"$eq":"06"},"day":{"$eq":"02"}},"limit":1,"skip":0}');//month, day, pageNumber, pageSize
         console.log(`Transaction has been evaluated, result is: ${result.toString()}`);
 
         // Disconnect from the gateway.
@@ -169,7 +171,8 @@ async function getEmployees() {
 }
 
 
+
 //main();
-rightCreds();
-wrongCreds();
+//rightCreds();
+//wrongCreds();
 getEmployees();
