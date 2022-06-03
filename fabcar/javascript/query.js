@@ -9,38 +9,18 @@
 const { Gateway, Wallets } = require('fabric-network');
 const path = require('path');
 const fs = require('fs');
-const CryptoJS = require('crypto-js');
-
-const salt = 'abcd1s';
+const {employeeCC, userCC} = require('../../application/properties');
 
 
-async function main() {
-    try {
-        // Get the contract from the network.
-        const contract = network.getContract('fabcar');
+// load the network configuration
+const ccpPath = path.resolve(__dirname, '..', '..', 'network', 'organizations', 'peerOrganizations', 'org1.example.com', 'connection-org1.json');
+const ccp = JSON.parse(fs.readFileSync(ccpPath, 'utf8'));
 
-        // Evaluate the specified transaction.
-        // queryCar transaction - requires 1 argument, ex: ('queryCar', 'CAR4')
-        // queryAllCars transaction - requires no arguments, ex: ('queryAllCars')
-        const result = await contract.evaluateTransaction('queryAllCars');
-        console.log(`Transaction has been evaluated, result is: ${result.toString()}`);
+// Create a new file system based wallet for managing identities.
+const walletPath = path.join(process.cwd(), 'wallet');
 
-        // Disconnect from the gateway.
-        await gateway.disconnect();
-        
-    } catch (error) {
-        console.error(`Failed to evaluate transaction: ${error}`);
-        process.exit(1);
-    }
-}
 async function rightCreds() {
     try {
-        // load the network configuration
-        const ccpPath = path.resolve(__dirname, '..', '..', 'test-network', 'organizations', 'peerOrganizations', 'org1.example.com', 'connection-org1.json');
-        const ccp = JSON.parse(fs.readFileSync(ccpPath, 'utf8'));
-
-        // Create a new file system based wallet for managing identities.
-        const walletPath = path.join(process.cwd(), 'wallet');
         const wallet = await Wallets.newFileSystemWallet(walletPath);
         console.log(`Wallet path: ${walletPath}`);
 
@@ -60,7 +40,7 @@ async function rightCreds() {
         const network = await gateway.getNetwork('mychannel');
 
         // Get the contract from the network.
-        const contract = network.getContract('usercc');
+        const contract = network.getContract(userCC);
 
         // Evaluate the specified transaction.
         // queryCar transaction - requires 1 argument, ex: ('queryCar', 'CAR4')
@@ -79,12 +59,6 @@ async function rightCreds() {
 
 async function wrongCreds() {
     try {
-	// load the network configuration
-        const ccpPath = path.resolve(__dirname, '..', '..', 'test-network', 'organizations', 'peerOrganizations', 'org1.example.com', 'connection-org1.json');
-        const ccp = JSON.parse(fs.readFileSync(ccpPath, 'utf8'));
-
-        // Create a new file system based wallet for managing identities.
-        const walletPath = path.join(process.cwd(), 'wallet');
         const wallet = await Wallets.newFileSystemWallet(walletPath);
         console.log(`Wallet path: ${walletPath}`);
 
@@ -103,7 +77,7 @@ async function wrongCreds() {
         // Get the network (channel) our contract is deployed to.
         const network = await gateway.getNetwork('mychannel');
         // Get the contract from the network.
-        const contract = network.getContract('usercc');
+        const contract = network.getContract(userCC);
 	
 	//console.log("------------");
 	//let password = "admin_abc"
@@ -130,12 +104,6 @@ async function wrongCreds() {
 
 async function getEmployees() {
     try {
-	// load the network configuration
-        const ccpPath = path.resolve(__dirname, '..', '..', 'test-network', 'organizations', 'peerOrganizations', 'org1.example.com', 'connection-org1.json');
-        const ccp = JSON.parse(fs.readFileSync(ccpPath, 'utf8'));
-
-        // Create a new file system based wallet for managing identities.
-        const walletPath = path.join(process.cwd(), 'wallet');
         const wallet = await Wallets.newFileSystemWallet(walletPath);
         console.log(`Wallet path: ${walletPath}`);
 
@@ -154,7 +122,7 @@ async function getEmployees() {
         // Get the network (channel) our contract is deployed to.
         const network = await gateway.getNetwork('mychannel');
         // Get the contract from the network.
-        const contract = network.getContract('employee9');
+        const contract = network.getContract(employeeCC);
 	
         //const result = await contract.evaluateTransaction('getAllEmployees');
         const result = await contract.evaluateTransaction('getEmployeeByMonthDay', '06', '02', 0, 1);//month, day, pageNumber, pageSize
@@ -171,8 +139,6 @@ async function getEmployees() {
 }
 
 
-
-//main();
-//rightCreds();
-//wrongCreds();
+rightCreds();
+wrongCreds();
 getEmployees();

@@ -9,21 +9,21 @@
 const { Gateway, Wallets } = require('fabric-network');
 const path = require('path');
 const fs = require('fs');
+const {userCC} = require('../properties');
 //const CryptoJS = require('crypto-js');
 
 //const salt = 'abcd1s';
 
 //const wallet_path = path.resolve(__dirname, '..', '..', 'fabcar', 'javascript', 'wallet');
 
+const ccpPath = path.resolve(__dirname, '..', '..', 'network', 'organizations', 'peerOrganizations', 'org1.example.com', 'connection-org1.json');
+const ccp = JSON.parse(fs.readFileSync(ccpPath, 'utf8'));
 
-exports.authenticate = async() => {
+// Create a new file system based wallet for managing identities.
+const walletPath = path.join(process.cwd(), 'wallet');
+
+exports.authenticate = async(username, password) => {
     try {
-        // load the network configuration
-        const ccpPath = path.resolve(__dirname, '..', '..', 'test-network', 'organizations', 'peerOrganizations', 'org1.example.com', 'connection-org1.json');
-        const ccp = JSON.parse(fs.readFileSync(ccpPath, 'utf8'));
-
-        // Create a new file system based wallet for managing identities.
-        const walletPath = path.join(process.cwd(), 'wallet');
         const wallet = await Wallets.newFileSystemWallet(walletPath);
         console.log(`Wallet path: ${walletPath}`);
 
@@ -43,12 +43,12 @@ exports.authenticate = async() => {
         const network = await gateway.getNetwork('mychannel');
 
         // Get the contract from the network.
-        const contract = network.getContract('usercc');
+        const contract = network.getContract(userCC);
 
         // Evaluate the specified transaction.
         // queryCar transaction - requires 1 argument, ex: ('queryCar', 'CAR4')
         // queryAllCars transaction - requires no arguments, ex: ('queryAllCars')
-        const result = await contract.evaluateTransaction('authenticate', 'admin', 'adminpw');
+        const result = await contract.evaluateTransaction('authenticate', username, password);
         console.log(`Transaction has been evaluated, result is: ${result.toString()}`);
 
         // Disconnect from the gateway.

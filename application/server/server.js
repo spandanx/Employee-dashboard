@@ -14,10 +14,10 @@ app.use(cors({
 app.get('/api/authenticate', async function (req, res) {
     try {
 	console.info("get authenticate called");
-	console.info(req);
-	//const result = await authenticate();
-//        console.log(`Transaction has been evaluated, result is: ${result.toString()}`);
-//        res.status(200).json({response: result.toString()});
+	console.info(req.headers);
+	const result = await authenticate(req.headers.username, req.headers.password);
+	console.log(result);
+	res.status(200).json(result.toString());
 
     } catch (error) {
         console.error(`Failed to evaluate transaction: ${error}`);
@@ -32,7 +32,7 @@ app.get('/api/getAllEmployees', async function (req, res) {
         const result = await getAllEmployees();
 	console.log(result);
 //        console.log(`Transaction has been evaluated, result is: ${result.toString()}`);
-        res.status(200).json({response: JSON.parse(result.toString())});
+        res.status(200).json(JSON.parse(result.toString()));
 
     } catch (error) {
         console.error(`Failed to evaluate transaction: ${error}`);

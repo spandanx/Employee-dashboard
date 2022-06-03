@@ -14,24 +14,36 @@ class UserCC extends Contract {
             {
                 username: 'admin',
                 password: 'adminpw',
+		role: 'admin'
             },
             {
                 username: 'admin2',
                 password: 'admin2pw',
+		role: 'admin'
+            },
+	    {
+                username: 'user1',
+                password: 'user1pw',
+		role: 'user'
             }
         ];
 
         for (let i = 0; i < accounts.length; i++) {
-            await ctx.stub.putState(accounts[i].username, Buffer.from(JSON.stringify(accounts[i].password)));
+            await ctx.stub.putState(accounts[i].username, Buffer.from(JSON.stringify(accounts[i])));
             console.info('Added <--> ', accounts[i]);
         }
         console.info('============= END : Initialize Ledger ===========');
     }
 
-	async registerUser(ctx, username, password) {
+	async registerUser(ctx, username, password, role) {
 		const pwdAsBytes = await ctx.stub.getState(username); // check if user exists
 		if (!pwdAsBytes || pwdAsBytes.length === 0) {
-			await ctx.stub.putState(username, Buffer.from(JSON.stringify(password)));
+			let user = {
+				username: username,
+				password: password,
+				role: role
+			    }
+			await ctx.stub.putState(username, Buffer.from(JSON.stringify(user)));
 		}
 		else{
 			throw new Error(`${username} already exists`);
@@ -48,6 +60,10 @@ class UserCC extends Contract {
 		}
 		else{
 			let pwdAsBytesString = pwdAsBytes.toString();
+			console.log("pwdAsBytesString");
+			console.log(pwdAsBytesString);
+			let jsonObj = JSON.parse(pwdAsBytesString);
+			console.log(jsonObj);
 			pwdAsBytesString = pwdAsBytesString.replace(/"/g, '');
 			if (pwdAsBytesString==password){
 				console.info('password matched');

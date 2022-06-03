@@ -6,10 +6,7 @@
 
 'use strict';
 
-//const FabCar = require('./lib/fabcar');
 const UserCC = require('./lib/usercc');
 
-//module.exports.FabCar = FabCar;
 module.exports.UserCC = UserCC;
-//module.exports.contracts = [ FabCar,User ];
 module.exports.contracts = [ UserCC ];
