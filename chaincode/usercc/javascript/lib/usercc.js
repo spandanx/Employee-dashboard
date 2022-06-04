@@ -64,7 +64,9 @@ class UserCC extends Contract {
 			console.log(pwdAsBytesString);
 			let jsonObj = JSON.parse(pwdAsBytesString);
 			console.log(jsonObj);
-			pwdAsBytesString = pwdAsBytesString.replace(/"/g, '');
+			console.log(jsonObj.password);
+			console.log(jsonObj.password.replace(/"/g, ''));
+			pwdAsBytesString = jsonObj.password.replace(/"/g, '');
 			if (pwdAsBytesString==password){
 				console.info('password matched');
 				return true;

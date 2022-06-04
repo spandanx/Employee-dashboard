@@ -6,7 +6,7 @@
 
 'use strict';
 
-const EmployeeCC = require('./lib/employeecc');
+const NewsCC = require('./lib/newscc');
 
-module.exports.EmployeeCC = EmployeeCC;
-module.exports.contracts = [ EmployeeCC ];
+module.exports.NewsCC = NewsCC;
+module.exports.contracts = [ NewsCC ];

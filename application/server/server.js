@@ -2,7 +2,9 @@ var bodyParser = require('body-parser');
 var express = require('express');
 var cors = require('cors');
 var {authenticate} = require('./userHelper');
-var {getAllEmployees} = require('./employeeHelper');
+var {getAllEmployees, createEmployee} = require('./employeeHelper');
+var {getAllnews} = require('./newsHelper');
+var {getAllMeetings} = require('./meetingHelper');
 
 var app = express();
 const port = 8080;
@@ -40,10 +42,44 @@ app.get('/api/getAllEmployees', async function (req, res) {
         process.exit(1);
     }
 });
+app.get('/api/getAllNews', async function (req, res) {
+    try {
+        const result = await getAllnews();
+	console.log(result);
+//        console.log(`Transaction has been evaluated, result is: ${result.toString()}`);
+        res.status(200).json(JSON.parse(result.toString()));
 
-app.post('/api/addcar/', async function (req, res) {
+    } catch (error) {
+        console.error(`Failed to evaluate transaction: ${error}`);
+        res.status(500).json({error: error});
+        process.exit(1);
+    }
+});
+app.get('/api/getAllMeetings', async function (req, res) {
+    try {
+        const result = await getAllMeetings();
+	console.log(result);
+//        console.log(`Transaction has been evaluated, result is: ${result.toString()}`);
+        res.status(200).json(JSON.parse(result.toString()));
+
+    } catch (error) {
+        console.error(`Failed to evaluate transaction: ${error}`);
+        res.status(500).json({error: error});
+        process.exit(1);
+    }
+});
+
+app.post('/api/employee', async function (req, res) {
     try{
-//        await contract.submitTransaction('createCar', req.body.carid, req.body.make, req.body.model, req.body.colour, req.body.owner);
+	let employee_id = req.body.employee_id;
+	let title = req.body.title;
+	let birthday = req.body.birthday;
+	let year = req.body.year;
+	let month = req.body.month;
+	let day = req.body.day;
+	let position = req.body.position;
+
+	await createEmployee(employee_id, name, title, birthday, year, month, day, position);
         console.log('Transaction has been submitted');
         res.send('Transaction has been submitted');
 

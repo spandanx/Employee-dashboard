@@ -40,7 +40,7 @@ class EmployeeCC extends Contract {
         console.info('============= END : Initialize Ledger ===========');
     }
 
-	async registerUser(ctx, employee_id, name, title, birthday, year, month, day, position) {
+	async registerEmployee(ctx, employee_id, name, title, birthday, year, month, day, position) {
 		const empAsBytes = await ctx.stub.getState(employee_id); // check if user exists
 		if (!empAsBytes || empAsBytes.length === 0) {
 			const obj = 
@@ -69,7 +69,7 @@ class EmployeeCC extends Contract {
 			throw new Error(`${employee_id} does not exist`);
 		}
 		console.log(empAsBytes);
-		let data = Buffer.from(value).toString('utf8')
+		let data = Buffer.from(empAsBytes).toString('utf8')
 		console.log(data);
 		console.log(JSON.stringify(data));
 		return JSON.stringify(data);

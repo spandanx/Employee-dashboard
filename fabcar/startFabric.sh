@@ -37,8 +37,14 @@ pushd ../network
 echo ./network.sh deployCC -ccn usercc -ccv 1 -cci initLedger -ccl ${CC_SRC_LANGUAGE} -ccp ${CC_SRC_PATH_USER}
 ./network.sh deployCC -ccn usercc -ccv 1 -cci initLedger -ccl ${CC_SRC_LANGUAGE} -ccp ${CC_SRC_PATH_USER}
 
-echo ./network.sh deployCC -ccn emmployeecc -ccv 1 -cci initLedger -ccl ${CC_SRC_LANGUAGE} -ccp ${CC_SRC_PATH_EMPLOYEE}
+echo ./network.sh deployCC -ccn employeecc -ccv 1 -cci initLedger -ccl ${CC_SRC_LANGUAGE} -ccp ${CC_SRC_PATH_EMPLOYEE}
 ./network.sh deployCC -ccn employeecc -ccv 1 -cci initLedger -ccl ${CC_SRC_LANGUAGE} -ccp ${CC_SRC_PATH_EMPLOYEE}
+
+echo ./network.sh deployCC -ccn newscc -ccv 1 -cci initLedger -ccl ${CC_SRC_LANGUAGE} -ccp "../chaincode/newscc/javascript/"
+./network.sh deployCC -ccn newscc -ccv 1 -cci initLedger -ccl ${CC_SRC_LANGUAGE} -ccp "../chaincode/newscc/javascript/"
+
+echo ./network.sh deployCC -ccn meetingcc -ccv 1 -cci initLedger -ccl ${CC_SRC_LANGUAGE} -ccp "../chaincode/meetingcc/javascript/"
+./network.sh deployCC -ccn meetingcc -ccv 1 -cci initLedger -ccl ${CC_SRC_LANGUAGE} -ccp "../chaincode/meetingcc/javascript/"
 
 popd
 
