@@ -175,4 +175,4 @@ async function createNews() {
 //createEmployee();
 //createUser();
 //createMeeting();
-createNews();
+//createNews();

@@ -1,10 +1,10 @@
 var bodyParser = require('body-parser');
 var express = require('express');
 var cors = require('cors');
-var {authenticate} = require('./userHelper');
+var {authenticate, createUser} = require('./userHelper');
 var {getAllEmployees, createEmployee} = require('./employeeHelper');
-var {getAllnews} = require('./newsHelper');
-var {getAllMeetings} = require('./meetingHelper');
+var {getAllnews, createNews} = require('./newsHelper');
+var {getAllMeetings, createMeeting} = require('./meetingHelper');
 
 var app = express();
 const port = 8080;
@@ -72,6 +72,7 @@ app.get('/api/getAllMeetings', async function (req, res) {
 app.post('/api/employee', async function (req, res) {
     try{
 	let employee_id = req.body.employee_id;
+	let name = req.body.name;
 	let title = req.body.title;
 	let birthday = req.body.birthday;
 	let year = req.body.year;
@@ -80,6 +81,56 @@ app.post('/api/employee', async function (req, res) {
 	let position = req.body.position;
 
 	await createEmployee(employee_id, name, title, birthday, year, month, day, position);
+        console.log('Transaction has been submitted');
+        res.send('Transaction has been submitted');
+
+    } catch (error) {
+        console.error(`Failed to submit transaction: ${error}`);
+        process.exit(1);
+    }
+})
+app.post('/api/news', async function (req, res) {
+    try{
+	let id = req.body.id;
+	let title = req.body.title;
+	let body = req.body.body;
+	let author = req.body.author;
+	let date = req.body.date;
+
+	await createNews(id, title, body, author, date);
+        console.log('Transaction has been submitted');
+        res.send('Transaction has been submitted');
+
+    } catch (error) {
+        console.error(`Failed to submit transaction: ${error}`);
+        process.exit(1);
+    }
+})
+app.post('/api/meeting', async function (req, res) {
+    try{
+	let id = req.body.id;
+	let title = req.body.title;
+	let from = req.body.from;
+	let to = req.body.to;
+	let host = req.body.host;
+	let link = req.body.link;
+
+	await createNews(id, title, from, to, host, link);
+        console.log('Transaction has been submitted');
+        res.send('Transaction has been submitted');
+
+    } catch (error) {
+        console.error(`Failed to submit transaction: ${error}`);
+        process.exit(1);
+    }
+})
+app.post('/api/user', async function (req, res) {
+    try{
+	let username = req.body.username;
+	let password = req.body.password;
+	let role = req.body.role;
+
+	await createUser(id, username, password, role);
         console.log('Transaction has been submitted');
         res.send('Transaction has been submitted');
 

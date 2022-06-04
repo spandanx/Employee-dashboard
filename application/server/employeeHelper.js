@@ -60,7 +60,7 @@ exports.getAllEmployees = async() => {
         process.exit(1);
     }
 }
-exports.createEmployee = async(employee_id, name, title, birthday, year, month, day, position) {
+exports.createEmployee = async(employee_id, name, title, birthday, year, month, day, position) => {
     try {
         // load the network configuration
         const wallet = await Wallets.newFileSystemWallet(walletPath);
