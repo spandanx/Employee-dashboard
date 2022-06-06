@@ -63,12 +63,20 @@ exports.getAllMeetings = async() => {
 }
 exports.createMeeting = async(id, title, from, to, host, link) => {
     try {
+        console.log(`Params`);
+        console.log(id);
+        console.log(title);
+        console.log(from);
+        console.log(to);
+        console.log(host);
+        console.log(link);
         // load the network configuration
         const wallet = await Wallets.newFileSystemWallet(walletPath);
         console.log(`Wallet path: ${walletPath}`);
 
         // Check to see if we've already enrolled the user.
         const identity = await wallet.get('appUser');
+        console.log(`Got identity`);
         if (!identity) {
             console.log('An identity for the user "appUser" does not exist in the wallet');
             console.log('Run the registerUser.js application before retrying');
@@ -84,10 +92,12 @@ exports.createMeeting = async(id, title, from, to, host, link) => {
 
         // Get the contract from the network.
         const contract = network.getContract(meetingCC);
+        console.log(`Got meetingCC`);
 
         // Submit the specified transaction.
         // createCar transaction - requires 5 argument, ex: ('createCar', 'CAR12', 'Honda', 'Accord', 'Black', 'Tom')
         // changeCarOwner transaction - requires 2 args , ex: ('changeCarOwner', 'CAR12', 'Dave')
+        console.log(`sending transaction`);
         await contract.submitTransaction('createMeeting', id, title, from, to, host, link);
         console.log('Transaction has been submitted');
 

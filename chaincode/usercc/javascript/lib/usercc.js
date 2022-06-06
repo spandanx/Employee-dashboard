@@ -34,7 +34,6 @@ class UserCC extends Contract {
         }
         console.info('============= END : Initialize Ledger ===========');
     }
-
 	async registerUser(ctx, username, password, role) {
 		const pwdAsBytes = await ctx.stub.getState(username); // check if user exists
 		if (!pwdAsBytes || pwdAsBytes.length === 0) {
@@ -53,29 +52,36 @@ class UserCC extends Contract {
 	async authenticate(ctx, username, password) {
 	        console.info('authenticate() called');
 		const pwdAsBytes = await ctx.stub.getState(username); // check if user exists
-
+		let response = {status: false, role: ''};
 		if (!pwdAsBytes || pwdAsBytes.length === 0) {
 			console.info('user does not exist ');
-			return false;
+			return response;
 		}
 		else{
 			let pwdAsBytesString = pwdAsBytes.toString();
-			console.log("pwdAsBytesString");
-			console.log(pwdAsBytesString);
 			let jsonObj = JSON.parse(pwdAsBytesString);
-			console.log(jsonObj);
-			console.log(jsonObj.password);
-			console.log(jsonObj.password.replace(/"/g, ''));
 			pwdAsBytesString = jsonObj.password.replace(/"/g, '');
 			if (pwdAsBytesString==password){
 				console.info('password matched');
-				return true;
+				response.status = true;
+				response.role = jsonObj.role;
+				return response;
 			}
 			else{
 				console.info('password did not match');
 			}
 		}
-		return false;
+		return response;
+	}
+	async checkIfExists(ctx, username) {
+	        console.info('checkIfExists() called');
+		const pwdAsBytes = await ctx.stub.getState(username); // check if user exists
+		if (!pwdAsBytes || pwdAsBytes.length === 0) {
+			return false;
+		}
+		else{
+			return true;
+		}
 	}
 }
 

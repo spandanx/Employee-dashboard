@@ -1,7 +1,7 @@
 var bodyParser = require('body-parser');
 var express = require('express');
 var cors = require('cors');
-var {authenticate, createUser} = require('./userHelper');
+var {authenticate, createUser, checkIfExists} = require('./userHelper');
 var {getAllEmployees, createEmployee} = require('./employeeHelper');
 var {getAllnews, createNews} = require('./newsHelper');
 var {getAllMeetings, createMeeting} = require('./meetingHelper');
@@ -108,6 +108,7 @@ app.post('/api/news', async function (req, res) {
 })
 app.post('/api/meeting', async function (req, res) {
     try{
+	console.log("Recieved request");
 	let id = req.body.id;
 	let title = req.body.title;
 	let from = req.body.from;
@@ -115,7 +116,7 @@ app.post('/api/meeting', async function (req, res) {
 	let host = req.body.host;
 	let link = req.body.link;
 
-	await createNews(id, title, from, to, host, link);
+	await createMeeting(id, title, from, to, host, link);
         console.log('Transaction has been submitted');
         res.send('Transaction has been submitted');
 
@@ -130,7 +131,7 @@ app.post('/api/user', async function (req, res) {
 	let password = req.body.password;
 	let role = req.body.role;
 
-	await createUser(id, username, password, role);
+	await createUser(username, password, role);
         console.log('Transaction has been submitted');
         res.send('Transaction has been submitted');
 
@@ -139,18 +140,20 @@ app.post('/api/user', async function (req, res) {
         process.exit(1);
     }
 })
+app.get('/api/checkIfexists', async function (req, res) {
+    try{
+	let username = req.headers.username;
 
-app.put('/api/changeowner/:car_index', async function (req, res) {
-    try {
-        //await contract.submitTransaction('changeCarOwner', req.params.car_index, req.body.owner);
-        console.log('Transaction has been submitted');
-        res.send('Transaction has been submitted');
+	const result = await checkIfExists(username);
+	console.log(result);
+	res.status(200).json(result.toString());
 
     } catch (error) {
         console.error(`Failed to submit transaction: ${error}`);
         process.exit(1);
-    }	
+    }
 })
+
 
 app.listen(port);
 console.log(`Application is listening to port ${port}`);
