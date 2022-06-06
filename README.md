@@ -1,6 +1,6 @@
-# DECENTRALISED EMAIL APPLICATION
+# EMPLOYEE DASHBOARD APPLICATION
 
-This application can do some basic email operations using ethereum.
+This app does some basic dashboard operations like showing birthdays of employees, news etc.
 
 ## Technologies used
 
