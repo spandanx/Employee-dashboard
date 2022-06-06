@@ -19,7 +19,9 @@ const ccpPath = path.resolve(__dirname, '..', '..', 'network', 'organizations', 
 const ccp = JSON.parse(fs.readFileSync(ccpPath, 'utf8'));
 
 // Create a new file system based wallet for managing identities.
-const walletPath = path.join(process.cwd(), 'wallet');
+//const walletPath = path.join(process.cwd(), 'wallet');
+const walletPrePath = path.resolve(__dirname, '..', '..', 'network-initializer', 'javascript');
+const walletPath = path.join(walletPrePath, 'wallet');
 
 
 exports.getAllEmployees = async() => {
