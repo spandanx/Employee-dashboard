@@ -1,6 +1,6 @@
 
 const employeeCC = 'employeecc';
-const userCC = 'usercc3';
+const userCC = 'usercc';
 const meetingCC = 'meetingcc';
 const newsCC = 'newscc';
 

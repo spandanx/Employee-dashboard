@@ -101,7 +101,7 @@ const LoginComponent = () => {
 
     return (
       <form class="form-horizontal container" role="form">
-        <p class="text-center">Login</p>
+        <p class="text-center">Register</p>
         <div class="form-group row my-3">
           <div class="col-sm-11">
             <input type="text" class="form-control select2-offscreen" id="to" placeholder="Username" tabIndex="-1"
