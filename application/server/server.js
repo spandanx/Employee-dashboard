@@ -2,7 +2,7 @@ var bodyParser = require('body-parser');
 var express = require('express');
 var cors = require('cors');
 var {authenticate, createUser, checkIfExists} = require('./userHelper');
-var {getAllEmployees, createEmployee} = require('./employeeHelper');
+var {getAllEmployees, createEmployee, getFilteredEmployeesPaginated} = require('./employeeHelper');
 var {getAllnews, createNews} = require('./newsHelper');
 var {getAllMeetings, createMeeting} = require('./meetingHelper');
 
@@ -32,6 +32,33 @@ app.get('/api/authenticate', async function (req, res) {
 app.get('/api/getAllEmployees', async function (req, res) {
     try {
         const result = await getAllEmployees();
+	console.log(result);
+//        console.log(`Transaction has been evaluated, result is: ${result.toString()}`);
+        res.status(200).json(JSON.parse(result.toString()));
+
+    } catch (error) {
+        console.error(`Failed to evaluate transaction: ${error}`);
+        res.status(500).json({error: error});
+        process.exit(1);
+    }
+});
+app.get('/api/getFilteredEmployees', async function (req, res) {
+    try {
+//month, day, pageSize, bookmark
+	let month = req.headers.month;
+	let day = req.headers.day;
+	let pagesize = req.headers.pagesize;
+//	let bookmark = req.headers.bookmark;
+	let pagenumber = req.headers.pagenumber;	
+
+	console.log('Received headers: ');
+	console.log(month);
+	console.log(day);
+	console.log(pagesize);
+	console.log(pagenumber);
+	console.log('----------');
+
+        const result = await getFilteredEmployeesPaginated(month, day, pagenumber, pagesize);
 	console.log(result);
 //        console.log(`Transaction has been evaluated, result is: ${result.toString()}`);
         res.status(200).json(JSON.parse(result.toString()));

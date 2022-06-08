@@ -18,7 +18,7 @@ class EmployeeCC extends Contract {
 		birthday: '20000602',
 		year: '2000',
 		month: '06',
-		day: '02',
+		day: '08',
 		position: 'Engineer'
             },
             {
@@ -28,7 +28,7 @@ class EmployeeCC extends Contract {
 		birthday: '20000602',
 		year: '2000',
 		month: '06',
-		day: '02',
+		day: '08',
 		position: 'Engineer'
             }
         ];
@@ -129,8 +129,42 @@ class EmployeeCC extends Contract {
 		console.info(allResults);
 		return JSON.stringify(allResults);
 	}
+	async getEmployeeByMonthDayPagination(ctx, month, day, pageSize, bookmark) {
+	        const startKey = '';
+		const endKey = '';
+		const allResults = [];
+
+		pageSize = Number(pageSize);
+
+		let query = 
+		{
+		   "selector": {
+		      "month": {
+			 "$eq": month
+		      },
+		      "day": {
+			 "$eq": day
+		      }
+		   }
+		};
+		console.log(query);
+		console.log(JSON.stringify(query));
+		for await (const {key, value} of ctx.stub.getQueryResultWithPagination(JSON.stringify(query), pageSize, bookmark)) {
+		    const strValue = Buffer.from(value).toString('utf8');
+		    let record;
+		    try {
+		        record = JSON.parse(strValue);
+		    } catch (err) {
+		        console.log(err);
+		        record = strValue;
+		    }
+		    allResults.push({ Key: key, Record: record });
+		}
+		console.info(allResults);
+		return JSON.stringify(allResults);
+	}
 	async executeQuery(ctx, query) {
-		console.log("Calling executeQuery()");		
+		console.log("Calling executeQuery()");
 		console.log(query);
 		
 		for await (const {key, value} of ctx.stub.getQueryResult(query)) {

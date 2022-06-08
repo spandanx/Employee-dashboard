@@ -258,9 +258,24 @@ const DashboardComponent = () => {
     }
 
     const getBirthdays = () => {
-	fetch(`http://localhost:${port}/api/getAllEmployees`, {
+	const today = new Date();
+	let month = today.getMonth()+1;
+	if ((month+"").length==1){
+		month = '0'+month;
+	}
+	let day = today.getDate();
+	if ((day+"").length==1){
+		day = '0'+day;
+	}
+	console.log('Month: '+month);
+	console.log('Day: '+day);
+	fetch(`http://localhost:${port}/api/getFilteredEmployees`, {
 		    method: "GET",
 		    headers: {
+			month: month,
+			day: day,
+			pagesize: '1',
+			pagenumber: '0',
 			Accept: "application/json",
 			"Content-Type": "application/json"
 		    },
