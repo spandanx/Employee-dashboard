@@ -44,7 +44,6 @@ app.get('/api/getAllEmployees', async function (req, res) {
 });
 app.get('/api/getFilteredEmployees', async function (req, res) {
     try {
-//month, day, pageSize, bookmark
 	let month = req.headers.month;
 	let day = req.headers.day;
 	let pagesize = req.headers.pagesize;

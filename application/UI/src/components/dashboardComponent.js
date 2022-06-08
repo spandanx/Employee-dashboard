@@ -267,8 +267,8 @@ const DashboardComponent = () => {
 	if ((day+"").length==1){
 		day = '0'+day;
 	}
-	console.log('Month: '+month);
-	console.log('Day: '+day);
+	console.log('Month:'+month);
+	console.log('Day:'+day);
 	fetch(`http://localhost:${port}/api/getFilteredEmployees`, {
 		    method: "GET",
 		    headers: {
